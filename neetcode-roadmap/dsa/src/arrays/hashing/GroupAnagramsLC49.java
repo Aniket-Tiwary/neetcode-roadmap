@@ -1,9 +1,7 @@
 package arrays.hashing;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class GroupAnagramsLC49 {
 
@@ -40,8 +38,28 @@ public class GroupAnagramsLC49 {
         }
         return res;
     }
+
+    //    Solution-2
+    public static List<List<String>> groupAnagramsSecond(String[] strs){
+          HashMap<HashSet<Character>,ArrayList<String>> anagrams = new HashMap<>();
+          for(String s:strs){
+              HashSet<Character> keySet = new HashSet<>();
+              s.chars().mapToObj(c->(char)c).forEach(keySet::add);
+              ArrayList<String> vals = null;
+              if(anagrams.containsKey(keySet)){
+                  vals = anagrams.get(keySet);
+              }else{
+                  vals = new ArrayList<>();
+              }
+              vals.add(s);
+              anagrams.put(keySet,vals);
+          }
+          return anagrams.values().stream().collect(Collectors.toUnmodifiableList());
+    }
+
+
     public static void main(String[] args){
-        String[] strs = new String[]{"eat","tea","tan","ate","nat","bat"};
-        System.out.println(groupAnagrams(strs));
+        String[] strs = new String[]{"cab","tin","pew","duh","may","ill","buy","bar","max","doc"};
+        System.out.println(groupAnagramsSecond(strs));
     }
 }
